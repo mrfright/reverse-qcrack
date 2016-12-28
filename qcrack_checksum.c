@@ -6,7 +6,6 @@
    negative non-zero if error (length not 12, challenge string not numbers)
 */
 int qcrack_checksum(char *challenge) {
-    int valid = -1;
     char str1[5];
     char str2[8];
     unsigned long a, x, y, z, breg, sreg;
