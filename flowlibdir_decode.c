@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 struct flowlibdir_entry {
-    char file_name[12];
+    char file_name[13];
     int32_t something;
     int32_t offset;
     int32_t size;
@@ -34,6 +34,7 @@ void flowlibdir(void) {
                    entries[num_entries].file_name,
                    num_objs_read);
         }
+        entries[num_entries].file_name[12] = '\0';
 
         num_objs_read = fread(&entries[num_entries].something, 4, 1, fp);
         if(num_objs_read != 1) {
