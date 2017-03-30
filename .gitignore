@@ -31,3 +31,18 @@
 # Debug files
 *.dSYM/
 *.su
+
+*.DOC
+*.BMP
+*.CAH
+*.17
+*.DAT
+*.EXE
+*.TXT
+*.TOB
+*.TOK
+*.BAK
+qcrypt
+xorfiles
+qcrypt_testfilegen
+qcrack_checksum_test
