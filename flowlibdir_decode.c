@@ -33,6 +33,11 @@ void flowlibdir(void) {
 
     num_objs_read = fread(&thing, 4, 1, flowlibdir);
     char c;
+
+    //change to fread num_things directly to entries array?
+    //if still need to see if at end of file, maybe instead of getc==eof use
+    //if fread returns zero bytes read?
+    //can have fread return num bytes read by saying size is 1, num objects is num bytes
     while((c=getc(flowlibdir)) != EOF && num_entries <= 1000) {
         ungetc(c, flowlibdir);
         num_objs_read = fread(&entries[num_entries], 12, 1, flowlibdir);
