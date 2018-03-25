@@ -1,5 +1,8 @@
 /*
   QCRACK reimplemented in C by Eric Faehnrich eric@faehnri.ch
+  One challenge string I found with a result different
+  than QCRACK is Q76820422412, it's valid and for the
+  same game, but gives a different serial number.
 */
 
 #include <stdio.h>
