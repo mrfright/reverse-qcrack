@@ -16,6 +16,11 @@ I got enough for testing for the time being
 (and besides, I think the Quake shareware CD
 only generates challenge strings for 'quake')
 
+These being mem dumps, they are bytes in order.  Note that the actual stored
+and used values in the arrays are two-byte values, so are in little-endian.
+So for instance the first value of quake3, it's first two mem dump bytes
+has f704, but the first 16-bit value in the array is 0x04f7
+
   ##quake3
   ##f7047e18d402c1063709910def047f205800a00043110e1ac709b80caf1299014d01820a221afd15
   ##0f051d036c117816ac00e8125110d120d80bc8219205b4081e19271ceb057612ed18e6179a02ec14
