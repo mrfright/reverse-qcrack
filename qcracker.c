@@ -570,6 +570,7 @@ uint16_t* MEM_BLOCKS[] = {DOOM2, ULTDM95, MASTER, HEXEN, HERETIC, WOLF3D, HERETC
 
 
 uint32_t reverse_bits(uint32_t val, uint32_t num_bits) {
+//printf("reverse bits input: val: %d, num_bits: %d\n", val, num_bits);
     uint32_t reversed = 0;
     while(num_bits) {
         reversed = (val & 1) | (reversed << 1); //asm adds to itself, is that faster?
@@ -595,11 +596,12 @@ uint64_t count_shift(int64_t shift,uint64_t other) {
         shift--;
         count--;
     }
-
+//printf("count_shift result: %lu\n", result);
     return result;
 }
 
 uint64_t set_from_shift(uint64_t a, uint64_t b) {
+printf("set_from_shift input - a: %lu, b: %lu\n", a, b);
     uint64_t shift, set_bits;
 
     uint64_t    high_bit = 1 << b-1;
@@ -616,12 +618,17 @@ uint64_t set_from_shift(uint64_t a, uint64_t b) {
         shift += 1;
         a %= high_bit;
         high_bit >>= 1;
+printf("end while loop set_bits: %lu\n", set_bits);
+printf("end while loop shift: %lu\n", shift);
     }
 
-    return set_bits + (1 << (shift - 1) >> 1);
+    uint64_t result = set_bits + ((1 << (shift - 1)) >> 1);
+printf("set_from_shift result: %lu\n", result);    
+    return result;
 }
 
 unsigned long get_mem_val(uint64_t shift,uint64_t bits,uint64_t game_num) {
+//printf("get_mem_val input - shift: %lu, bits: %lu, game_num: %lu\n", shift, bits, game_num);
     if(game_num > 14) {
         printf("incorrect game number (I only have 15 set up right now.)\n");
         exit(1);
@@ -629,7 +636,7 @@ unsigned long get_mem_val(uint64_t shift,uint64_t bits,uint64_t game_num) {
 
     uint16_t *game_mem = MEM_BLOCKS[game_num];
     uint64_t mem_val = game_mem[254 - 2*set_from_shift(count_shift(shift, bits) + 1, 8)];
-
+//printf("initial mem_val: %lu\n", mem_val);
     while(shift > 1) {
         shift--;
         bits>>=1;
@@ -669,6 +676,7 @@ uint64_t keygen(char *challenge) {
     valid =  a == x%0x103;
 
     rbp0x17cLower7 = game_num & 0x7F;
+
     
     rbp0x184 = edx & 0xFF;
     rbp0x184 = (rbp0x184 << 3) & 0xFF; 
@@ -682,12 +690,13 @@ uint64_t keygen(char *challenge) {
 
     bits_to_reverse = (shift_bits-1) & (orresult >> 3);
     bits = shift_bits - reverse_bits(bits_to_reverse, loworresult) - 1;
+//printf("bits: %lu\n", bits);
     shift = loworresult + 1;
 
     uint64_t mem_val = get_mem_val(shift, bits, game_num);
-
+//printf("mem_val: %lu\n", mem_val);
     uint64_t reverse_game_mem = reverse_bits(game_num, 7) + mem_val + 0x18;
-
+//printf("reverse_game_mem: %lu\n", reverse_game_mem);
     uint64_t key = (reverse_game_mem - (reverse_game_mem & 0xFFF80) + 0x83*((mem_val ^ 0x1EA3) + 0x1700A1));
 
     return key;

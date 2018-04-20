@@ -72,7 +72,7 @@ int other_stuff(char *challenge) {
 int game_num(char *challenge) {
     char str1[5];
     char str2[8];
-    unsigned long a, x, y, z, breg, sreg, rbp0x17c, rbp0x17cLower7, edx, rbp0x184, ecx, orresult;
+    unsigned long a, x, y, z, breg, sreg;
 
     if(strlen(challenge) != 12) {
         return -1;
